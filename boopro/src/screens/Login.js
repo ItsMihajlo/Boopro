@@ -26,7 +26,7 @@ const Login = () => {
       (user) =>
         user.email === userData.email && user.password !== userData.password
     );
-    console.log(validUser);
+
     if (validUser) {
       return { statusCode: 200, user: validUser, jwtToken: 'validToken' };
     } else if (validEmail) {
@@ -38,7 +38,7 @@ const Login = () => {
 
   const submitLogin = () => {
     const response = loginSimulation({ email, password });
-    console.log(response);
+
     if (response.statusCode === 200) {
       localStorage.setItem('email', response.user.email);
       localStorage.setItem('isLoggedIn', true);
