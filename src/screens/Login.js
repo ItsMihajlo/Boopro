@@ -1,14 +1,14 @@
 import './Login.css';
 import axios from 'axios';
 import { useState, useEffect, useContext } from 'react';
+import {} from '../';
 import AuthContext from '../contexts/AuthContext';
 
-const Login = () => {
+const Login = ({ setIsLoggedIn }) => {
   const [errorMessage, setErrorMessage] = useState('');
   const [email, setEmail] = useState('example@boopro.tech');
   const [password, setPassword] = useState('123123');
   const validUser = [{ email: 'example@boopro.tech', password: '123123' }];
-  const authContext = useContext(AuthContext);
 
   // zakomentarisan je login post deo jer ako sam vas dobro skapirao isteko je domen samim tim ne mogu da se loginujem na zeljeni nacin
   // const submitLogin = () => {
@@ -40,10 +40,9 @@ const Login = () => {
     const response = loginSimulation({ email, password });
 
     if (response.statusCode === 200) {
-      localStorage.setItem('email', response.user.email);
       localStorage.setItem('isLoggedIn', true);
-      authContext.setIsLoggedIn(true);
-      authContext.setEmail(response.user.email);
+      setIsLoggedIn(true);
+      // authContext.setEmail(response.user.email);
     } else if (response.statusCode === 401) {
       setErrorMessage('Wrong Password');
     } else if (response.statusCode === 422) {

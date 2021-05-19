@@ -50,7 +50,10 @@ const Popover = ({ name, overview, vote_average, date, background }) => {
         contentLabel="Example Modal"
         ariaHideApp={false}
       >
-        <img src={`https://image.tmdb.org/t/p/w500/${background}`} />
+        <img
+          src={`https://image.tmdb.org/t/p/w500/${background}`}
+          alt="Movie"
+        />
         <div
           className="popover_name"
           ref={(_subtitle) => (subtitle = _subtitle)}
