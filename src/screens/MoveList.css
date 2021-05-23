@@ -60,6 +60,6 @@
 .simple_bar::-webkit-scrollbar {
   display: none;
 }
-.simplebar-scrollbar {
+/* .simplebar-scrollbar {
   margin-top: 10px;
-}
+} */

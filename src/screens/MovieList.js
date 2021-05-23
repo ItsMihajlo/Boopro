@@ -76,14 +76,20 @@ const MovieList = () => {
   };
 
   const scroll = () => {
-    window.scrollTo({ top: focusedX * 350 * 1.2, behavior: 'smooth' });
+    // window.scrollTo({ top: focusedX * 350 * 1.2, behavior: 'smooth' });
+    scrollRef.current.scrollIntoView({ block: 'center', behavior: 'smooth' });
   };
   const scrollY = () => {
     // window.scrollTo({ left: focusedY * 220 * 1.2, behavior: 'smooth' });
-    scrollRef.current.scrollTo({
-      left: focusedY * 220 * 1.2,
+    scrollRef.current.scrollIntoView({
+      block: 'center',
+      inline: 'center',
       behavior: 'smooth',
     });
+    // scrollRef.current.scrollTo({
+    //   left: focusedY * 220 * 1.2,
+    //   behavior: 'smooth',
+    // });
     // const element = document.getElementById([genre.id]);
     // console.log(element);
     // window.scrollTo({ right: focusedY * 220 * 1.2 });
@@ -93,14 +99,12 @@ const MovieList = () => {
     <div className="genre_list">
       {genresJson.genres.map((genre, indexX) => (
         <div key={genre.id} className="movie_list_wrapper">
-          <div ref={scrollRef} className="genre_name">
-            {genre.name}
-          </div>
-          <SimpleBar className="simple_bar">
+          <div className="genre_name">{genre.name}</div>
+          <SimpleBar autoHide={false} forceVisible="x" className="simple_bar">
             <div className="movie_list">
               {movies[genre.id] &&
                 movies[genre.id].map((movie, indexY) => (
-                  <div key={movie.id} className="movie">
+                  <div ref={scrollRef} key={movie.id} className="movie">
                     <img
                       src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
                       className={
@@ -111,7 +115,7 @@ const MovieList = () => {
                     />
 
                     {indexX === focusedX && indexY === focusedY && (
-                      <div className="movie_name">
+                      <div ref={scrollRef} className="movie_name">
                         {movie.title}
 
                         <Popover
