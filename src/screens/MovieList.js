@@ -1,5 +1,5 @@
 import './Login.css';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import './MoveList.css';
 import genresJson from '../data/geners.json';
@@ -12,6 +12,7 @@ const MovieList = () => {
 
   let [focusedX, setFocusedX] = useState(0);
   let [focusedY, setFocusedY] = useState(0);
+  const scrollRef = useRef();
 
   window.addEventListener(
     'keydown',
@@ -79,14 +80,22 @@ const MovieList = () => {
   };
   const scrollY = () => {
     // window.scrollTo({ left: focusedY * 220 * 1.2, behavior: 'smooth' });
-    window.scrollTo({ right: focusedY * 220 * 1.2 });
+    scrollRef.current.scrollTo({
+      left: focusedY * 220 * 1.2,
+      behavior: 'smooth',
+    });
+    // const element = document.getElementById([genre.id]);
+    // console.log(element);
+    // window.scrollTo({ right: focusedY * 220 * 1.2 });
   };
 
   return (
     <div className="genre_list">
       {genresJson.genres.map((genre, indexX) => (
         <div key={genre.id} className="movie_list_wrapper">
-          <div className="genre_name">{genre.name}</div>
+          <div ref={scrollRef} className="genre_name">
+            {genre.name}
+          </div>
           <SimpleBar className="simple_bar">
             <div className="movie_list">
               {movies[genre.id] &&
