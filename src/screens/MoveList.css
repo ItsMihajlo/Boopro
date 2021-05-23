@@ -52,14 +52,14 @@
   text-align: center;
   word-break: break-word;
 }
-
-.simple_bar {
-  height: 400px;
-  margin-bottom: 20px;
+.overflow_wrapper {
+  overflow: auto;
 }
-.simple_bar::-webkit-scrollbar {
+.overflow_wrapper::-webkit-scrollbar {
   display: none;
 }
-/* .simplebar-scrollbar {
-  margin-top: 10px;
-} */
+
+.overflow_wrapper {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

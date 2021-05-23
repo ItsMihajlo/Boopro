@@ -49,73 +49,69 @@ const MovieList = () => {
   const handleKeyPress = (event) => {
     event.preventDefault();
     //samim tim ako se uradi slice na samo 6 limit se takodje i smanjuje sa 19 na 5
-    if (event.key === 'ArrowRight' && focusedY < 19) {
-      focusedY += 1;
-      setFocusedY(focusedY);
-      scrollY();
-    } else if (
-      event.key === 'ArrowDown' &&
-      focusedX < genresJson.genres.length - 1
-    ) {
+    if (event.key === 'ArrowRight' && focusedX < 19) {
       focusedX += 1;
       setFocusedX(focusedX);
-      scroll();
-      focusedY = 0;
+      scrollX();
+    } else if (
+      event.key === 'ArrowDown' &&
+      focusedY < genresJson.genres.length - 1
+    ) {
+      focusedY += 1;
       setFocusedY(focusedY);
-    } else if (event.key === 'ArrowUp' && focusedX > 0) {
-      focusedX -= 1;
-      setFocusedX(focusedX);
       scroll();
-      focusedY = 0;
+      focusedX = 0;
       setFocusedY(focusedY);
-    } else if (event.key === 'ArrowLeft' && focusedY > 0) {
+    } else if (event.key === 'ArrowUp' && focusedY > 0) {
       focusedY -= 1;
       setFocusedY(focusedY);
-      scrollY();
+      scroll();
+      focusedX = 0;
+      setFocusedY(focusedY);
+    } else if (event.key === 'ArrowLeft' && focusedX > 0) {
+      focusedX -= 1;
+      setFocusedX(focusedX);
+      scrollX();
     }
   };
 
   const scroll = () => {
-    // window.scrollTo({ top: focusedX * 350 * 1.2, behavior: 'smooth' });
-    scrollRef.current.scrollIntoView({ block: 'center', behavior: 'smooth' });
-  };
-  const scrollY = () => {
-    // window.scrollTo({ left: focusedY * 220 * 1.2, behavior: 'smooth' });
-    scrollRef.current.scrollIntoView({
-      block: 'center',
-      inline: 'center',
+    window.scrollTo({ top: focusedY * 350 * 1.2, behavior: 'smooth' });
+    const elem = document.getElementById(`row-${focusedY}`);
+    elem.scrollTo({
+      left: setFocusedX(0) * 220 * 1.2,
       behavior: 'smooth',
     });
-    // scrollRef.current.scrollTo({
-    //   left: focusedY * 220 * 1.2,
-    //   behavior: 'smooth',
-    // });
-    // const element = document.getElementById([genre.id]);
-    // console.log(element);
-    // window.scrollTo({ right: focusedY * 220 * 1.2 });
+  };
+  const scrollX = () => {
+    const elem = document.getElementById(`row-${focusedY}`);
+    elem.scrollTo({
+      left: focusedX * 220 * 1.2,
+      behavior: 'smooth',
+    });
   };
 
   return (
     <div className="genre_list">
-      {genresJson.genres.map((genre, indexX) => (
+      {genresJson.genres.map((genre, indexY) => (
         <div key={genre.id} className="movie_list_wrapper">
           <div className="genre_name">{genre.name}</div>
-          <SimpleBar autoHide={false} forceVisible="x" className="simple_bar">
+          <div className="overflow_wrapper" id={`row-${indexY}`}>
             <div className="movie_list">
               {movies[genre.id] &&
-                movies[genre.id].map((movie, indexY) => (
-                  <div ref={scrollRef} key={movie.id} className="movie">
+                movies[genre.id].map((movie, indexX) => (
+                  <div key={movie.id} className="movie">
                     <img
                       src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
                       className={
-                        indexX === focusedX && indexY === focusedY
+                        indexY === focusedY && indexX === focusedX
                           ? 'focused_movie_poster'
                           : 'movie_poster'
                       }
                     />
 
-                    {indexX === focusedX && indexY === focusedY && (
-                      <div ref={scrollRef} className="movie_name">
+                    {indexY === focusedY && indexX === focusedX && (
+                      <div className="movie_name">
                         {movie.title}
 
                         <Popover
@@ -131,7 +127,7 @@ const MovieList = () => {
                   </div>
                 ))}
             </div>
-          </SimpleBar>
+          </div>
         </div>
       ))}
     </div>
