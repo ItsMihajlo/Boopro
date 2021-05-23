@@ -15,7 +15,7 @@
 .movie_list {
   display: flex;
   flex-direction: row;
-  height: 350px;
+  height: 400px;
 }
 
 .movie_list_wrapper {
@@ -51,4 +51,15 @@
   color: honeydew;
   text-align: center;
   word-break: break-word;
+}
+
+.simple_bar {
+  height: 400px;
+  margin-bottom: 20px;
+}
+.simple_bar::-webkit-scrollbar {
+  display: none;
+}
+.simplebar-scrollbar {
+  margin-top: 10px;
 }

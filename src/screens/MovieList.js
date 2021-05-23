@@ -4,6 +4,8 @@ import { useSelector } from 'react-redux';
 import './MoveList.css';
 import genresJson from '../data/geners.json';
 import Popover from '../components/Popover';
+import SimpleBar from 'simplebar-react';
+import 'simplebar/dist/simplebar.min.css';
 
 const MovieList = () => {
   const { movies } = useSelector((state) => state.movies);
@@ -57,10 +59,14 @@ const MovieList = () => {
       focusedX += 1;
       setFocusedX(focusedX);
       scroll();
+      focusedY = 0;
+      setFocusedY(focusedY);
     } else if (event.key === 'ArrowUp' && focusedX > 0) {
       focusedX -= 1;
       setFocusedX(focusedX);
       scroll();
+      focusedY = 0;
+      setFocusedY(focusedY);
     } else if (event.key === 'ArrowLeft' && focusedY > 0) {
       focusedY -= 1;
       setFocusedY(focusedY);
@@ -72,7 +78,8 @@ const MovieList = () => {
     window.scrollTo({ top: focusedX * 350 * 1.2, behavior: 'smooth' });
   };
   const scrollY = () => {
-    window.scrollTo({ left: focusedY * 220 * 1.2, behavior: 'smooth' });
+    // window.scrollTo({ left: focusedY * 220 * 1.2, behavior: 'smooth' });
+    window.scrollTo({ right: focusedY * 220 * 1.2 });
   };
 
   return (
@@ -80,36 +87,38 @@ const MovieList = () => {
       {genresJson.genres.map((genre, indexX) => (
         <div key={genre.id} className="movie_list_wrapper">
           <div className="genre_name">{genre.name}</div>
-          <div className="movie_list">
-            {movies[genre.id] &&
-              movies[genre.id].map((movie, indexY) => (
-                <div key={movie.id} className="movie">
-                  <img
-                    src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
-                    className={
-                      indexX === focusedX && indexY === focusedY
-                        ? 'focused_movie_poster'
-                        : 'movie_poster'
-                    }
-                  />
+          <SimpleBar className="simple_bar">
+            <div className="movie_list">
+              {movies[genre.id] &&
+                movies[genre.id].map((movie, indexY) => (
+                  <div key={movie.id} className="movie">
+                    <img
+                      src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+                      className={
+                        indexX === focusedX && indexY === focusedY
+                          ? 'focused_movie_poster'
+                          : 'movie_poster'
+                      }
+                    />
 
-                  {indexX === focusedX && indexY === focusedY && (
-                    <div className="movie_name">
-                      {movie.title}
+                    {indexX === focusedX && indexY === focusedY && (
+                      <div className="movie_name">
+                        {movie.title}
 
-                      <Popover
-                        className="popover"
-                        name={movie.title}
-                        overview={movie.overview}
-                        vote_average={movie.vote_average}
-                        date={movie.release_date}
-                        background={movie.backdrop_path}
-                      />
-                    </div>
-                  )}
-                </div>
-              ))}
-          </div>
+                        <Popover
+                          className="popover"
+                          name={movie.title}
+                          overview={movie.overview}
+                          vote_average={movie.vote_average}
+                          date={movie.release_date}
+                          background={movie.backdrop_path}
+                        />
+                      </div>
+                    )}
+                  </div>
+                ))}
+            </div>
+          </SimpleBar>
         </div>
       ))}
     </div>
